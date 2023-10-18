@@ -1,5 +1,22 @@
+const todoList = document.getElementById("todo-list");
+fetch('http://localhost:3000/users', {
+    method: "GET"
+}).then((data) => data.json()).then((result) => {
+    
+    for(let i = 0; i < Object.keys(result.result).length; i++){
+
+        const listItem = document.createElement("li");
+        listItem.innerHTML = `
+        <span class="task-text">${result.result[0].content}</span>
+        <input type="checkbox" class="edit-checkbox">                
+            <img src="images/pen.png" width="20px" height="20px" class="edit-icon">
+            <img src="images/trashcan.png" width="20px" height="20px" class="delete-button">
+            `;
+        todoList.appendChild(listItem);
+    }
+})
+
 document.addEventListener("DOMContentLoaded", function () {
-    const todoList = document.getElementById("todo-list");
     const newTaskInput = document.getElementById("new-task");
     const addButton = document.getElementById("add-button");
     const switchButton = document.getElementById("onoff-switch1");
@@ -7,11 +24,14 @@ document.addEventListener("DOMContentLoaded", function () {
     const mtContainer = document.getElementById("mtContainer");
     const fullContainer = document.getElementById("fullContainer");
 
-    fetch('http://localhost:3000/list', {
+
+
+    fetch('http://localhost:3000/users', {
         method: "GET",
-    }).then((data) => data.json()).then((data) => {
+    }).then((data) => { return data.json() }).then((data) => {
         reload()
     })
+
 
     addButton.addEventListener("click", function () {
         const taskText = newTaskInput.value.trim();
@@ -95,6 +115,23 @@ document.addEventListener("DOMContentLoaded", function () {
         if (target.classList.contains("delete-button")) {
             target.parentElement.remove();
 
+            fetch("http://localhost:3000/users/delete", {
+                method: "DELETE",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "content": newTaskInput.value
+                })
+            }).then((res) => {
+                return res.json()
+            }).then((data) => {
+                reload()
+            }).catch((err) => {
+                // console.error(`err : ${err}`)
+            })
+
+
             // 할 일 목록이 비어있는지 확인하고 컨테이너를 업데이트
             updateContainersDisplay();
         }
@@ -107,6 +144,29 @@ document.addEventListener("DOMContentLoaded", function () {
             taskTextElement.contentEditable = "false";
         }
     });
+
+    function reload() {
+        fetch('http://localhost:3000/users', {
+            method: "GET"
+        }).then((data) => data.json()).then((res) => {
+            const result = res.result
+            console.log(result)
+            const len = Object.keys(result).length
+
+
+            if (len === 0) {
+                //리스트가 없으면 empty화면을 띄움
+                mtContainer.style.display = "block";
+                fullContainer.style.display = "none";
+            } else {
+                //리스트가 있으면 list목록을 띄움
+                mtContainer.style.display = "none";
+                fullContainer.style.display = "block";
+            }
+        })
+        //페이지 로드시 텍스트 박스 지우기
+        addText.value = ''
+    }
 
     // 초기 페이지 로드 시 컨테이너 표시 여부 설정
     updateContainersDisplay();
