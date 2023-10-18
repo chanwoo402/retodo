@@ -1,0 +1,182 @@
+body {
+  font-family: Arial, sans-serif;
+  text-align: center;
+  background-color: #F7F1F1 ;
+}
+
+.todo-container {
+  max-width: 400px;
+  margin: 0 auto;
+  margin-top: 35px;
+  border: 1px solid #ccc;
+  background-color: #ff6666;
+  box-shadow: -5px -5px #E0E0E0;
+}
+
+
+#mainText {
+  color:white;
+  font-weight: lighter;
+  font-family: 'Montserrat', sans-serif;
+  text-align: left;
+  margin: 30px 20px 0px 30px;
+}
+
+#addText{
+  color:white;
+  font-weight: lighter;
+  font-family: 'Montserrat', sans-serif;
+  text-align: left;
+  margin: 30px 20px 10px 50px;
+}
+
+#subText{
+  color:white;
+  font-weight: lighter;
+  font-family: 'Montserrat', sans-serif;
+  text-align: left;
+  margin: 20px 20px 10px 30px;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+}
+
+li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 10px 0; /* 10px 간격 추가 */
+  padding: 15px 30px;
+  background-color: #ff7676;
+  color: #fff;
+}
+
+
+
+/* 삭제 버튼 스타일 */
+.delete-button {
+  background-color: #ff7676;
+  margin-left: 20px;
+  border: none;
+  padding: 2px 5px;
+  cursor: pointer;
+}
+
+#new-task{
+  width: 190px;
+  padding: 10px;
+  border:  1px solid white;
+  margin: 0px 0px 40px 0px;
+}
+
+.task-text{
+  width: 300px;
+  text-align: left;
+  font-family: 'Montserrat', sans-serif;
+}
+
+#add-button{
+  padding: 10px;
+  border: white solid 1px;
+  background-color: #ff6666;
+  color: white;
+  font-style: normal;
+}
+
+#switchButton{
+  text-align: right;
+}
+
+#switchText{
+  color: white;
+  font-weight: lighter;
+  font-family: 'Montserrat', sans-serif;
+  margin: 0px 10px;
+}
+
+#middleLine{
+  margin: 0px 30px;
+}
+
+li.completed {
+  text-decoration: line-through;
+}
+
+.edit-icon{
+  margin-left: 20px;
+}
+
+#fullContainer{
+  display: none;
+  text-align: center;
+  margin-top: 30px;
+}
+
+#mtText{
+  color:white;
+  font-weight: lighter;
+  font-family: 'Montserrat', sans-serif;
+}
+
+#mtContainer{
+  display: block;
+  text-align: center;
+  margin: 60px 0px;
+}
+
+
+
+/* ------------------------------------------------------------------------------------------ */
+
+.onoff-switch-container {
+  display: inline-block;
+  width: 80px;
+  height: 0px;
+  position: relative;
+  margin-top: 0px;
+}
+.onoff-switch-container input[type="checkbox"]{
+  position: absolute;
+  width: 0px;
+  height: 0px;
+  overflow: hidden;
+}
+.onoff-switch-container label{
+  padding-left: 70px;
+  line-height: 30px;
+  font-size: 16px;
+}
+.onoff-switch-container label::after{  
+  position:absolute;
+  top:3px;
+  left:4px;
+  content:'';
+  width: 14px;
+  height: 14px;
+  background: #ff6666;
+  border-radius: 100%;
+  transition: all 0.3s
+    
+}
+.onoff-switch-container label::before{
+  position:absolute;
+  top:0;
+  left:0;
+  content:'';
+  width: 40px;
+  height: 20px;
+  border:1px solid #d1d1d1;
+  border-radius: 20px;
+  background: #f1f1f1;
+  box-sizing: border-box;
+}
+.onoff-switch-container input[type="checkbox"]:checked + label::after {
+  transform: translateX(18px);
+  background: red;
+}
+.onoff-switch-container input[type="checkbox"]:checked + label::before {
+  background: #fff;
+}
+

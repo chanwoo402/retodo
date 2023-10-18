@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="stylesheets/todo.css">
+    <title>To-Do List</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@200&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="todo-container">
+        <h1 id="mainText">To-Do List</h1>
+        <h5 id="subText">Get things done. One item at a time.</h5>
+        <hr id="middleLine">
+
+        <div id="fullContainer">
+            <ul id="todo-list">
+                <!--list 부분 추가-->
+            </ul>
+            <div id="switchButton">
+                <h5 style="display: inline;" id="switchText">Move done items at the top?</h5>
+                <div class="onoff-switch-container">                
+                    <input type="checkbox" name="onoff-switch" id="onoff-switch1" />
+                    <label for="onoff-switch1"></label>
+                </div>
+            </div>
+        </div>
+
+        <div id="mtContainer">
+            <h3 id="mtText">Your to-do list is empty.</h3>
+        </div>
+
+        <h3 id="addText">Add to the to-do list</h3>
+        <div>
+            <input type="text" id="new-task">
+            <button id="add-button">ADD ITEM</button>
+        </div>
+    </div>
+    <script src="javascripts/todo.js"></script>
+</body>
+</html>
