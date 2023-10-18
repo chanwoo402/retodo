@@ -1,28 +1,29 @@
-const todoList = document.getElementById("todo-list");
-fetch('http://localhost:3000/users', {
-    method: "GET"
-}).then((data) => data.json()).then((result) => {
-    
-    for(let i = 0; i < Object.keys(result.result).length; i++){
-
-        const listItem = document.createElement("li");
-        listItem.innerHTML = `
-        <span class="task-text">${result.result[0].content}</span>
-        <input type="checkbox" class="edit-checkbox">                
-            <img src="images/pen.png" width="20px" height="20px" class="edit-icon">
-            <img src="images/trashcan.png" width="20px" height="20px" class="delete-button">
-            `;
-        todoList.appendChild(listItem);
-    }
-})
-
 document.addEventListener("DOMContentLoaded", function () {
+    const todoList = document.getElementById("todo-list");
     const newTaskInput = document.getElementById("new-task");
     const addButton = document.getElementById("add-button");
     const switchButton = document.getElementById("onoff-switch1");
     const switchText = document.getElementById("switchText");
     const mtContainer = document.getElementById("mtContainer");
     const fullContainer = document.getElementById("fullContainer");
+
+
+    fetch('http://localhost:3000/users', {
+        method: "GET"
+    }).then((data) => data.json()).then((result) => {
+
+        for (let i = 0; i < Object.keys(result.result).length; i++) {
+
+            const listItem = document.createElement("li");
+            listItem.innerHTML = `
+        <span class="task-text">${result.result[i].content}</span>
+        <input type="checkbox" class="edit-checkbox">                
+            <img src="images/pen.png" width="20px" height="20px" class="edit-icon">
+            <img src="images/trashcan.png" width="20px" height="20px" class="delete-button">
+            `;
+            todoList.appendChild(listItem);
+        }
+    })
 
 
 
@@ -93,9 +94,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+
     todoList.addEventListener("click", function (event) {
         const target = event.target;
-
+    
         if (target.classList.contains("edit-icon")) {
             // 클릭한 '펜' 아이콘을 포함한 li 요소를 찾음
             const listItem = target.closest("li");
@@ -106,36 +108,38 @@ document.addEventListener("DOMContentLoaded", function () {
                 taskTextElement.focus();
             }
         }
-
+    
         if (target.classList.contains("edit-checkbox")) {
             const listItem = target.parentElement;
             listItem.classList.toggle("completed");
         }
-
+    
         if (target.classList.contains("delete-button")) {
-            target.parentElement.remove();
-
-            fetch("http://localhost:3000/users/delete", {
-                method: "DELETE",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    "content": newTaskInput.value
-                })
-            }).then((res) => {
-                return res.json()
-            }).then((data) => {
-                reload()
-            }).catch((err) => {
-                // console.error(`err : ${err}`)
-            })
-
-
-            // 할 일 목록이 비어있는지 확인하고 컨테이너를 업데이트
-            updateContainersDisplay();
+            // 클릭한 '삭제' 버튼을 포함한 li 요소를 찾음
+            const listItem = target.closest("li");
+            if (listItem) {
+                const taskText = listItem.querySelector(".task-text").textContent;
+                // 서버로 해당 내용을 전달하여 삭제
+                fetch("http://localhost:3000/users/delete", {
+                    method: "DELETE",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        "content": taskText
+                    })
+                }).then((res) => {
+                    return res.json();
+                }).then((data) => {
+                    listItem.remove(); // 클라이언트 측에서도 해당 li 요소를 삭제
+                    updateContainersDisplay();
+                }).catch((err) => {
+                    // 오류 처리
+                    console.error(`err : ${err}`);
+                });
+            }
         }
-    });
+    })
 
     // 텍스트 수정 후 엔터 키를 누르면 포커스 해제하여 수정 종료
     todoList.addEventListener("keydown", function (event) {

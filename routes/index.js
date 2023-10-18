@@ -70,22 +70,24 @@ router.get('/asd', (req, res) => {
 
 })
 
-router.delete('/users/delete', async (req, res) => {
-  const {content} = req.body
 
+router.delete('/users/delete', async (req, res) => {
+  const { content } = req.body;
   try {
-    const qu = await pool
-    const result = await qu.request()
-      .input('name', sql.VarChar, content)
-      .query('DELETE FROM users WHERE content = @name')
-    res.status(200).json({
-      message: "success"
-    })
+      const qu = await pool;
+      await qu.request()
+          .input('name', sql.VarChar, content)
+          .query('DELETE FROM users WHERE content = @name');
+      res.status(200).json({
+          message: "success"
+      });
   } catch (err) {
-    res.status(500);
-    console.log(`err : ${err}`)
+      res.status(500).json({
+          message: "fail",
+          error: err
+      });
   }
-})
+});
 
 router.get('/users', async (req, res) => {
   try {
